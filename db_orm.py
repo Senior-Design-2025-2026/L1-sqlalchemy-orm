@@ -7,6 +7,7 @@ import os
 # ================================================== SQL ALCHEMY ================================================== 
 # this is a super easy to use python package for handling transactional database connections agnostically using OOP
 # docs: https://www.sqlalchemy.org/
+# we are using postgres, which requires a configuration... see the docker compose file and .env for the configs
 
 # ================= BASE  ==================
 # this classname doesnt need to be "Base", 
