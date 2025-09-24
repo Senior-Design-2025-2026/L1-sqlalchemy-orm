@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, func, Integer, String, Time, Float, Unique
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 from typing import Optional
+import os
 
 # ================================================== SQL ALCHEMY ================================================== 
 # this is a super easy to use python package for handling transactional database connections agnostically using OOP
@@ -59,10 +60,14 @@ class User(Base):
         return f"<user_configurations(user_id={self.user_id}, name={self.name}, phone_num={self.phone_num}, email_addr={self.email_addr}>"
 
 if __name__ == "__main__":
-    print("RUNNING")
-    engine = create_engine("sqlite:///sqlite/lab1.db", echo=True)
+    DB_URL = os.getenv("DB_URL")
 
-    tables: list[Base] = [Temperature(), User()]
+    if not DB_URL:
+        raise RuntimeError("DB_URL env var is not set")
+    else:
+        print("USING DB_URL", DB_URL)
+
+    engine = create_engine(DB_URL, echo=True)
 
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)

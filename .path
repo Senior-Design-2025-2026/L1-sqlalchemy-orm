@@ -1,0 +1,1 @@
+postgresql+psycopg2://user:password123@localhost:5432/lab1_db
