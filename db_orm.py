@@ -54,7 +54,7 @@ class User(Base):
     email_addr: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
 
     __table_args__ = (
-        UniqueConstraint("user_id", "name"),            
+        UniqueConstraint("name"),            
     )
 
     def __repr__(self):
