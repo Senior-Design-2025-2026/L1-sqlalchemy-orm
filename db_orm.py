@@ -50,42 +50,13 @@ class User(Base):
 
     user_id: Mapped[int]              = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str]                 = mapped_column(String(30), nullable=False)
-    phone_num: Mapped[Optional[str]]  = mapped_column(String(15), nullable=True)
     email_addr: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
+    min_thresh_c: Mapped[int]         = mapped_column(Integer, default=32)            # approx 90 f
+    max_thresh_c: Mapped[int]         = mapped_column(Integer, default=10)            # approx 50 f   
 
     __table_args__ = (
-        UniqueConstraint("name"),            
+        UniqueConstraint("email_addr"),            
     )
 
     def __repr__(self):
-        return f"<user_configurations(user_id={self.user_id}, name={self.name}, phone_num={self.phone_num}, email_addr={self.email_addr}>"
-
-if __name__ == "__main__":
-    DB_URL = os.getenv("DB_URL")
-
-    if not DB_URL:
-        raise RuntimeError("DB_URL env var is not set")
-    else:
-        print("USING DB_URL", DB_URL)
-
-    engine = create_engine(DB_URL, echo=True)
-
-    Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
-
-    matt = User(
-        name="Matt",
-        phone_num="6087973815",
-        email_addr="mnkrueger@uiowa.edu"
-    )
-
-    user1 = User(
-        name="user1",
-        phone_num="abcdefg",
-        email_addr="hello@gmail.com"
-    )
-
-    with Session(engine) as session:
-        session.add(matt)
-        session.add(user1)
-        session.commit()
+        return f"<user_configurations(user_id={self.user_id}, name={self.name}, email_addr={self.email_addr}, min_thresh_c={self.min_thresh_c}, max_thresh_c={self.max_thresh_c}>"
